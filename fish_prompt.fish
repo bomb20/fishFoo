@@ -1,4 +1,10 @@
 function fish_prompt
+  set stat $status
+  if test $stat -eq 0
+    set stat ''
+  else
+    set stat $stat' '
+  end
 	set green (set_color -o green)
 	set blue (set_color -o blue)
 	set red (set_color -o red)
@@ -31,8 +37,7 @@ function fish_prompt
 	end
 
 	set row_1 (echo $green\u250C\u2574$bat_color$bat$green$USER'@'(hostname) $bak_color$lastbak'h'(git_status))
-	set row_2 (echo $green\u2514\u2192 $blue(short_pwd)/ $green'$ ')
+	set row_2 (echo $green\u2514\u2192 $red$stat$blue(short_pwd)/ $green'$ ')
 
 	echo $row_1\n$row_2
-	bcheck
 end
