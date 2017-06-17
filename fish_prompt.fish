@@ -31,7 +31,7 @@ function fish_prompt
 	end
 
 	set row_1 (echo $green\u250C\u2574$bat_color$bat$green$USER'@'(hostname) $bak_color$lastbak'h'(git_status))
-	set row_2 (echo $green\u2514\u2192 $blue(short_pwd)/ \u21AA' ')
+	set row_2 (echo $green\u2514\u2192 $blue(short_pwd)/ $green'$ ')
 
 	echo $row_1\n$row_2
 	bcheck
