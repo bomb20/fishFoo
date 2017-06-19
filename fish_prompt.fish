@@ -10,15 +10,23 @@ function fish_prompt
 	set red (set_color -o red)
 	set yellow (set_color -o yellow)	
 
-	set lastbak (math (date +%s) - (cat ~/.backup.log))
-	set lastbak (math $lastbak / 3600)
-	
-	if test $lastbak -ge 8
-		set bak_color (set_color -o red)
+    set tstamp (cat ~/.backup.log)
+
+    if test $tstamp -eq -1
+      set lastbak -1
+    else
+	  set lastbak (math (date +%s) - $tstamp)
+	  set lastbak (math $lastbak / 3600)
+	end
+
+    if test $lastbak -eq -1
+      set lastbak $red\u21AF
+	else if test $lastbak -ge 8
+		set lastbak $red$lastbak h
 	else if test $lastbak -ge 4
-		set bak_color $yellow
+		set lastbak $yellow$lastbak h
 	else
-		set bak_color (set_color -o green)
+		set lastbak $green$lastbak h
 	end
 
 	set bat (prompt_bat)
@@ -36,8 +44,8 @@ function fish_prompt
 		set bat $bat'% '
 	end
 
-	set row_1 (echo $green\u250C\u2574$bat_color$bat$green$USER'@'(hostname) $bak_color$lastbak'h'(git_status))
-	set row_2 (echo $green\u2514\u2192 $red$stat$blue(short_pwd)/ $green'$ ')
+	set row_1 (echo $green\u250C\u2574$bat_color$bat$green$USER'@'(hostname) $lastbak (git_status))
+	set row_2 (echo $green\u2514\u2192 $red$stat$blue(short_pwd) $green'$ ')
 
 	echo $row_1\n$row_2
 end
